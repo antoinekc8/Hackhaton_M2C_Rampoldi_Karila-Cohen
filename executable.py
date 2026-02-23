@@ -7,7 +7,7 @@ from optimisation import Optimisation
 
 if __name__ == '__main__':
 
-    TEAM_NAME = ""
+    TEAM_NAME = "Madrid"
 
     # Historical data
     print("### READING THE DATA ###")
