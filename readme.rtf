@@ -1,0 +1,200 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 Times-Bold;\f1\froman\fcharset0 Times-Roman;\f2\fmodern\fcharset0 Courier;
+\f3\fmodern\fcharset0 Courier-Bold;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue233;\red109\green109\blue109;
+}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\cssrgb\c0\c0\c93333;\cssrgb\c50196\c50196\c50196;
+}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}}{\leveltext\leveltemplateid101\'01\'00;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid2}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\sa298\partightenfactor0
+
+\f0\b\fs36 \cf0 \expnd0\expndtw0\kerning0
+Environment setup\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b0\fs24 \cf0 You 
+\f0\b must
+\f1\b0  use 
+\f0\b Python 3.11
+\f1\b0 . Using other versions will cause the pre-compiled checker to fail.\
+\pard\pardeftab720\sa280\partightenfactor0
+
+\f0\b\fs28 \cf0 	Installing Python 3.11\
+\pard\tx566\pardeftab720\sa240\partightenfactor0
+
+\fs24 \cf0 	Windows:
+\f1\b0  Download the "Windows installer (64-bit)" from {\field{\*\fldinst{HYPERLINK "https://www.python.org/downloads/windows/"}}{\fldrslt \cf3 \ul \ulc3 Python.org}}. 
+\f0\b Important:
+\f1\b0  Check the box 
+\f0\b "Add Python.exe to PATH"
+\f1\b0  during installation.\
+\pard\tx566\pardeftab720\partightenfactor0
+
+\f0\b \cf0 	Linux (Ubuntu/Debian):
+\f1\b0 \uc0\u8232 		Bash\u8232 
+\f2\fs26 		sudo apt update\
+		sudo apt install python3.11
+\f1\fs24 \uc0\u8232 \
+
+\f0\b 	macOS:
+\f1\b0  Use 
+\f2\fs26 brew install python@3.11
+\f1\fs24  or download the installer from Python.org.\
+\
+\pard\pardeftab720\sa280\partightenfactor0
+
+\f0\b\fs28 \cf0 Installing Libraries\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b0\fs24 \cf0 Open your terminal/command prompt in the project folder and run:\
+\pard\pardeftab720\partightenfactor0
+\cf0 	Bash\
+
+\f2\fs26 	pip install pandas requests flask\
+
+\f1\fs24 \cf4 \
+\pard\pardeftab720\sa298\partightenfactor0
+
+\f0\b\fs36 \cf0 Setting up the checker\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b0\fs24 \cf0 The core logic of the hackathon is protected in a compiled file. You must "activate" the one that matches your Operating System.\
+\pard\tx566\pardeftab720\sa240\partightenfactor0
+\cf0 Navigate to the 
+\f2\fs26 checkers/
+\f1\fs24  folder.\
+
+\f0\b Windows Users:
+\f1\b0  Find the file for Windows, rename it to 
+\f3\b\fs26 checker.pyd
+\f1\b0\fs24 , and move it to the main folder (where 
+\f2\fs26 executable.py
+\f1\fs24  is).\
+
+\f0\b Linux Users:
+\f1\b0  Find the file for Linux, rename it to 
+\f3\b\fs26 checker.so
+\f1\b0\fs24 , and move it to the main folder.\
+\pard\tx566\pardeftab720\partightenfactor0
+
+\f0\b \cf0 macOS Users: 
+\f1\b0 the 
+\f3\b\fs26 checker.so 
+\f1\b0\fs24 already provided in the main folder is the right one.\
+\
+NOTE: If you cannot see any extensions, just name the file \'93checker\'94.\
+\pard\pardeftab720\partightenfactor0
+\cf4 \
+\pard\pardeftab720\sa298\partightenfactor0
+
+\f0\b\fs36 \cf0 Running the code\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b0\fs24 \cf0 The only file you should interact with for submission is 
+\f3\b\fs26 executable.py
+\f1\b0\fs24 .\
+\pard\tx566\pardeftab720\partightenfactor0
+
+\f0\b \cf0 Team Name:
+\f1\b0  Open 
+\f2\fs26 executable.py
+\f1\fs24  and change the 
+\f2\fs26 TEAM_NAME
+\f1\fs24  variable to your chosen name.\
+\pard\tx220\tx720\tx1133\pardeftab720\li720\fi-720\partightenfactor0
+\ls1\ilvl0
+\f0\b \cf0 \kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+Rule:
+\f1\b0  Use the exact same name for every submission.\
+\ls1\ilvl0
+\f0\b \kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+Rule:
+\f1\b0  Ensure your name is unique (e.g., 
+\f2\fs26 Team_Loosers_ENTPE
+\f1\fs24 ).\
+\pard\tx566\tx1133\pardeftab720\partightenfactor0
+\cf0 \
+\pard\tx566\pardeftab720\partightenfactor0
+
+\f0\b \cf0 Do Not Modify:
+\f1\b0  Do not change any other logic in 
+\f2\fs26 executable.py
+\f1\fs24 . It is responsible for reading your solutions and syncing your progress to the cloud leaderboard.\
+\pard\pardeftab720\partightenfactor0
+\cf4 \
+\pard\pardeftab720\sa298\partightenfactor0
+
+\f0\b\fs36 \cf0 Understanding data formats\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b0\fs24 \cf0 The system expects a specific structure to read your instances and validate your solutions.\
+\pard\pardeftab720\sa280\partightenfactor0
+
+\f0\b\fs28 \cf0 Instance Files (
+\f3\fs30\fsmilli15210 instances/
+\f0\fs28  folder)\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b0\fs24 \cf0 There is an example that shows you how an instance should be written:\
+	General information\
+		number_of_request number_timeseps number_zones\
+	clients information:\
+		index_of_client zone_pickup zone-drop off\
+				\'85\
+	distance matrices: \
+	each matrix is a matrix of nb_zones * nb_zones for a time-step\
+	\
+\pard\pardeftab720\sa280\partightenfactor0
+
+\f0\b\fs28 \cf0 Solution files (
+\f3\fs30\fsmilli15210 solutions/
+\f0\fs28  folder)\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b0\fs24 \cf0 An example is provided: \
+	index of vehicle\
+	sequence of visits (iP means the pickup for client i, iD means the dropoff for client i)\
+	departure times from each zone.
+\f2\fs26 \uc0\u8232 
+\f1\fs24 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \
+\pard\pardeftab720\sa298\partightenfactor0
+
+\f0\b\fs36 \cf0 5. The Live Leaderboard\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b0\fs24 \cf0 Every time you run 
+\f2\fs26 executable.py
+\f1\fs24 , your best results are sent to: {\field{\*\fldinst{HYPERLINK "https://www.google.com/search?q=https://faycaltouzout.pythonanywhere.com/"}}{\fldrslt 
+\f0\b \cf3 \ul \ulc3 https://faycaltouzout.pythonanywhere.com/}}\
+Keep an eye on the board to see how you rank against other teams!\
+\pard\pardeftab720\partightenfactor0
+\cf4 \
+\pard\pardeftab720\sa280\partightenfactor0
+
+\f0\b\fs28 \cf0 Some tips:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sa240\partightenfactor0
+\ls2\ilvl0
+\fs24 \cf0 \kerning1\expnd0\expndtw0 {\listtext	1	}\expnd0\expndtw0\kerning0
+Check your paths:
+\f1\b0  Ensure the 
+\f2\fs26 instances/
+\f1\fs24  and 
+\f2\fs26 solutions/
+\f1\fs24  folders are in the same directory as your script.\
+\ls2\ilvl0
+\f0\b \kerning1\expnd0\expndtw0 {\listtext	2	}\expnd0\expndtw0\kerning0
+Valid Routes:
+\f1\b0  If your solution is physically impossible (e.g., a vehicle exceeds its capacity), the checker will reject it, and it won't appear on the leaderboard.\
+\ls2\ilvl0
+\f0\b \kerning1\expnd0\expndtw0 {\listtext	3	}\expnd0\expndtw0\kerning0
+Frequency:
+\f1\b0  Don't spam the server; run the 
+\f2\fs26 executable.py
+\f1\fs24  only when you have improved your solution!\
+}
