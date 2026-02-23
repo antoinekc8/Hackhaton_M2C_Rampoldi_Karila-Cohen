@@ -18,7 +18,7 @@ class Data:
         """
         print(f"Loading data from: {self.file_path}")
         # Added: sep=';' to correctly handle your specific CSV format
-        self.raw_data = pd.read_csv(self.file_path, sep=';')
+        self.raw_data = pd.read_csv(self.file_path, sep=',')
         print(f"Data loaded: {len(self.raw_data)} rows")
 
     def clean_data(self):
