@@ -11,7 +11,7 @@ if __name__ == '__main__':
 
     # Historical data
     print("### READING THE DATA ###")
-    data: Data = Data('data/Data_2019-2023')
+    data: Data = Data('data/Data_2019-2023.csv')
     print(30 * "-")
     print("### Predicting the OD and travelling time matrices ###")
     predictor: Prediction = Prediction(data.data_demand)

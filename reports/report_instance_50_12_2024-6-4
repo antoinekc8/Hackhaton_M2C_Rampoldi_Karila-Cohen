@@ -1,0 +1,13 @@
+Total Vehicles in Solution: 50
+
+>>> VEHICLE 1 ANALYSIS | Total Travel Time: 67.78 min
+------------------------------------------------------------
+Full Route Timeline:
+  Step 00: Depot    | Zone: 0    | Departure: 0.00
+  Step 01: C0P      | Zone: 2    | Departure: 18.48
+  Step 02: C0D      | Zone: 0    | Departure: 49.30
+  Step 03: Depot    | Zone: 0    | Departure: 67.78
+  [!] TIMELINE ERROR: Step 0 to 1 too fast.
+
+  Client  | ReqTime | ActDep  | ActDrop | RideTT | Status
+  --------------------------------------------------------------------------------

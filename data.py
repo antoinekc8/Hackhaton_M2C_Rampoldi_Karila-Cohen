@@ -11,6 +11,7 @@ class Data:
         self.raw_data = None
         self.parse_data()
         self.clean_data()
+        self.create_data_demand()  # Automatically create data_demand
 
     def parse_data(self):
         """
