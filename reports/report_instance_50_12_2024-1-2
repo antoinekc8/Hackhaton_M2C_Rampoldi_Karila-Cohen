@@ -1,15 +1,9 @@
-Total Vehicles in Solution: 50
-
->>> VEHICLE 1 ANALYSIS | Total Travel Time: 56.36 min
+============================================================
+HACKATHON EVALUATION SUMMARY
 ------------------------------------------------------------
-Full Route Timeline:
-  Step 00: Depot    | Zone: 0    | Departure: 0.00
-  Step 01: C0P      | Zone: 1    | Departure: 22.20
-  Step 02: C0D      | Zone: 6    | Departure: 34.16
-  Step 03: Depot    | Zone: 0    | Departure: 56.36
-  [!] TIMELINE ERROR: Step 0 to 1 too fast.
-  [!] TIMELINE ERROR: Step 1 to 2 too fast.
-  [!] TIMELINE ERROR: Step 2 to 3 too fast.
-
-  Client  | ReqTime | ActDep  | ActDrop | RideTT | Status
-  --------------------------------------------------------------------------------
+Instance Name:           instance_50_12_2024-1-2
+Status:                  FEASIBLE
+------------------------------------------------------------
+Total Vehicles Used:     20
+Total Fleet Travel Time: 8695.11 min
+============================================================

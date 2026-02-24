@@ -9,6 +9,13 @@ import time
 
 class Instance:
 
+    @staticmethod
+    def _build_request(origin: int, destination: int, departure_time: float):
+        req = Request(origin, destination, departure_time)
+        if not hasattr(req, 'request_time'):
+            req.request_time = departure_time
+        return req
+
     def __init__(self, od_2024: pd.DataFrame = None, nb_requests: int = None, nb_timesteps: int = None,
                  month: int = None, day: int = None, file_path = None):
         """
@@ -87,7 +94,7 @@ class Instance:
         self.requests = []
         for i in range(1, self.nb_requests + 1):
             _, origin, dest, dep_time = map(float, lines[i].split())
-            self.requests.append(Request(int(origin), int(dest), dep_time))
+            self.requests.append(self._build_request(int(origin), int(dest), dep_time))
 
         # Travel Time Matrix
         matrix_flat = lines[self.nb_requests + 1:]
@@ -99,7 +106,20 @@ class Instance:
                 self.travelling_time[i, :, t] = [float(val) for val in matrix_flat[line_idx].split()]
                 line_idx += 1
 
+        self._save_raw_instance_content(content)
         self.write_solution_to_txt()
+
+    def _save_raw_instance_content(self, content: str):
+        output_dir = 'instances'
+        os.makedirs(output_dir, exist_ok=True)
+
+        base_name = os.path.basename(str(self.file_path)) if self.file_path else 'instance_exported'
+        if not base_name:
+            base_name = 'instance_exported'
+
+        output_path = os.path.join(output_dir, base_name)
+        with open(output_path, 'w', encoding='utf-8') as f:
+            f.write(content)
 
     def write_solution_to_txt(self, max_clients_per_vehicle: int = 1):
         """
@@ -302,12 +322,14 @@ class Instance:
         Outputs the instance to a text file with the standard format.
         Creates file in instances/ directory with format:
         - Header: num_clients num_timesteps num_zones
-        - Clients: client_id pickup_zone dropoff_zone
+        - Blank line
+        - Clients: client_id pickup_zone dropoff_zone request_time
+        - Blank line
         - Distance matrices: one matrix per timestep
         """
         print("\nSTEP 4: Writing instance file...")
         
-        output_dir = 'solutions' if self.nb_requests == 100 else 'instances'
+        output_dir = 'instances'
         os.makedirs(output_dir, exist_ok=True)
         
         typical_date = self.time_slots[0]
@@ -318,20 +340,33 @@ class Instance:
         with open(instance_filename, 'w') as f:
             # Header
             f.write("{0} {1} {2}\n".format(len(self.clients), self.nb_timesteps, self.nb_zones))
+            f.write("\n")  # Blank line after header
             
-            # Clients
+            # Clients with request_time
             for client in self.clients:
-                f.write("{0} {1} {2}\n".format(client['client_id'], client['pickup_zone'], client['dropoff_zone']))
+                # Convert time_slot (datetime) to minutes since midnight
+                time_hours = client['time_slot'].hour
+                time_minutes = client['time_slot'].minute
+                request_time_minutes = time_hours * 60 + time_minutes
+                f.write("{0} {1} {2} {3}\n".format(
+                    client['client_id'], 
+                    client['pickup_zone'], 
+                    client['dropoff_zone'],
+                    request_time_minutes))
             
-            # Distance matrices
-            for t_idx, hour in enumerate(self.time_slots):
+            f.write("\n")  # Blank line before matrices
+            
+            # Distance matrices (no comment lines)
+            for t_idx in range(self.nb_timesteps):
                 matrix = self.travelling_time[:, :, t_idx]
-                hour_str = hour.strftime('%H:%M')
-                f.write("# Time slot {0}: {1}\n".format(t_idx, hour_str))
                 
                 for i in range(self.nb_zones):
-                    row_str = " ".join(["{0:.1f}".format(matrix[i][j]) for j in range(self.nb_zones)])
+                    row_str = " ".join(["{0:.2f}".format(matrix[i][j]) for j in range(self.nb_zones)])
                     f.write("{0}\n".format(row_str))
+                
+                # Blank line between timesteps (except after the last one)
+                if t_idx < self.nb_timesteps - 1:
+                    f.write("\n")
         
         print("✓ Instance file written to: {0}".format(instance_filename))
         
@@ -371,7 +406,9 @@ class Instance:
             client_id = int(parts[0])
             origin = int(parts[1])
             dest = int(parts[2])
-            self.requests.append(Request(origin, dest, 0))
+            # Check if request_time is present (4th column)
+            request_time = float(parts[3]) if len(parts) > 3 else 0.0
+            self.requests.append(self._build_request(origin, dest, request_time))
         
         # Travel time matrices
         self.travelling_time = np.zeros((self.nb_zones, self.nb_zones, self.nb_timesteps))

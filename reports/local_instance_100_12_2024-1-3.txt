@@ -1,0 +1,5 @@
+Total Vehicles in Solution: 27
+
+>>> VEHICLE 1 ANALYSIS | Total Travel Time: 608.48 min
+------------------------------------------------------------
+Full Route Timeline:
