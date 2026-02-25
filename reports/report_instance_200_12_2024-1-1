@@ -2,8 +2,8 @@
 HACKATHON EVALUATION SUMMARY
 ------------------------------------------------------------
 Instance Name:           instance_200_12_2024-1-1
-Status:                  INFEASIBLE
+Status:                  FEASIBLE
 ------------------------------------------------------------
-Total Vehicles Used:     48
-Total Fleet Travel Time: 20739.31 min
+Total Vehicles Used:     46
+Total Fleet Travel Time: 10332.33 min
 ============================================================

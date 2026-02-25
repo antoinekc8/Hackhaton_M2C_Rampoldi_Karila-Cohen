@@ -1,0 +1,5 @@
+Total: 30
+Feasible: 30
+Infeasible: 0
+
+INFEASIBLE INSTANCES

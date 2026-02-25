@@ -1,6 +1,7 @@
 from instance import Instance
 import numpy as np
 import os
+import shutil
 
 try:
     from checker import Checker
@@ -25,6 +26,9 @@ def _patch_checker_report_format():
         try:
             instance_name = os.path.basename(str(getattr(instance, 'file_path', ''))) or 'instance'
             report_path = os.path.join('reports', f'report_{instance_name}')
+            if os.path.exists(report_path):
+                raw_backup = os.path.join('reports', f'local_{instance_name}.txt')
+                shutil.copyfile(report_path, raw_backup)
             rewrite_report_as_summary(report_path, instance_name=instance_name)
         except Exception:
             pass
@@ -39,12 +43,15 @@ _patch_checker_report_format()
 
 class Optimisation:
 
-    def __init__(self, instance, max_clients_per_vehicle: int = 3, waiting_time_factor: float = 0.5):
+    def __init__(self, instance, max_clients_per_vehicle: int = 3, waiting_time_factor: float = 0.5,
+                 validate_with_checker: bool = True, insertion_scan_limit: int = 20):
 
         self.instance = instance
         self._ensure_instance_loaded()
         self.max_clients_per_vehicle = max(1, int(max_clients_per_vehicle))
         self.waiting_time_factor = max(0.0, float(waiting_time_factor))
+        self.validate_with_checker = bool(validate_with_checker)
+        self.insertion_scan_limit = max(2, int(insertion_scan_limit))
         self.vehicles = []
         self.departure_times = []
 
@@ -59,6 +66,7 @@ class Optimisation:
 
         self.run()
         self.write_to_file()
+        self._validate_and_repair_with_checker()
 
     def _ensure_instance_loaded(self):
         if self.instance is None:
@@ -141,6 +149,11 @@ class Optimisation:
         return direct
 
     def _route_start_time(self, route, requests_by_id):
+        for stop_type, client_id in route:
+            if stop_type == 'P':
+                req = requests_by_id[client_id]
+                travel_from_depot = self._travel_time(0, req['origin'], 0.0)
+                return req['request_time'] - travel_from_depot
         return 0.0
 
     def _simulate_route(self, route, enforce_time_constraints: bool = True):
@@ -229,6 +242,70 @@ class Optimisation:
             'evaluation': candidate_eval,
         }
 
+    def _best_insertion(self, base_route, request):
+        base_eval = self._simulate_route(base_route, enforce_time_constraints=True)
+        if base_eval is None:
+            return None
+
+        best = self._best_append(base_route, request)
+        route_len = len(base_route)
+        pickup_start = max(0, route_len - self.insertion_scan_limit)
+
+        for pickup_pos in range(pickup_start, route_len + 1):
+            dropoff_end = min(route_len + 1, pickup_pos + self.insertion_scan_limit)
+            for dropoff_pos in range(pickup_pos + 1, dropoff_end + 1):
+                candidate_route = list(base_route)
+                candidate_route.insert(pickup_pos, ('P', request['id']))
+                candidate_route.insert(dropoff_pos, ('D', request['id']))
+
+                candidate_eval = self._simulate_route(candidate_route, enforce_time_constraints=True)
+                if candidate_eval is None:
+                    continue
+
+                added_cost = candidate_eval['total_travel_time'] - base_eval['total_travel_time']
+                if best is None or added_cost < best['added_cost']:
+                    best = {
+                        'added_cost': added_cost,
+                        'evaluation': candidate_eval,
+                    }
+
+        return best
+
+    def _build_single_client_solution(self):
+        vehicles_data = []
+        for request in self._requests:
+            route = [('P', request['id']), ('D', request['id'])]
+            route_eval = self._simulate_route(route, enforce_time_constraints=True)
+            if route_eval is None:
+                route_eval = self._simulate_route(route, enforce_time_constraints=False)
+            if route_eval is None:
+                raise ValueError(f"Unable to build single-client route for client {request['id']}")
+            vehicles_data.append(route_eval)
+
+        self.vehicles = [vehicle['visits'] for vehicle in vehicles_data]
+        self.departure_times = [vehicle['departure_times'] for vehicle in vehicles_data]
+
+    def _validate_and_repair_with_checker(self):
+        if not self.validate_with_checker or Checker is None:
+            return
+
+        try:
+            checker = Checker.from_processed_file()
+            feasible = checker.check_from_file(self.instance, team_name=None)
+        except Exception:
+            return
+
+        if feasible:
+            return
+
+        self._build_single_client_solution()
+        self.write_to_file()
+
+        try:
+            checker.check_from_file(self.instance, team_name=None)
+        except Exception:
+            pass
+
 
 
     def run(self):
@@ -242,12 +319,12 @@ class Optimisation:
         for request in self._requests:
             assigned = False
 
-            # Try appending to each existing vehicle
+            # Try inserting into each existing vehicle
             for v_idx, vehicle in enumerate(vehicles_data):
-                insertion = self._best_append(vehicle['route'], request)
+                insertion = self._best_insertion(vehicle['route'], request)
                 
                 if insertion is not None:
-                    # Append succeeded, update this vehicle
+                    # Insertion succeeded, update this vehicle
                     vehicles_data[v_idx] = {
                         'route': insertion['evaluation']['route'],
                         'visits': insertion['evaluation']['visits'],
