@@ -1,0 +1,15 @@
+Total instances: 30
+
+Baseline (first-fit, no consolidation)
+  Feasible instances: 30
+  Total vehicles: 1011
+  Total travel time: 240253.95 min
+
+Improved (global best insertion + consolidation)
+  Feasible instances: 30
+  Total vehicles: 998
+  Total travel time: 240133.71 min
+
+Delta (improved - baseline)
+  Vehicles: -13
+  Travel time: -120.24 min

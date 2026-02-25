@@ -1,0 +1,4 @@
+Total instances: 30
+Feasible instances: 30
+Total vehicles (sum over instances): 998
+Total fleet travel time (sum over instances): 240133.71 min

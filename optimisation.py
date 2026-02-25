@@ -2,6 +2,7 @@ from instance import Instance
 import numpy as np
 import os
 import shutil
+import itertools
 
 try:
     from checker import Checker
@@ -43,15 +44,70 @@ _patch_checker_report_format()
 
 class Optimisation:
 
-    def __init__(self, instance, max_clients_per_vehicle: int = 3, waiting_time_factor: float = 0.5,
-                 validate_with_checker: bool = True, insertion_scan_limit: int = 20):
+    PROFILES = {
+        'default': {
+            'max_clients_per_vehicle': 3,
+            'waiting_time_factor': 0.5,
+            'validate_with_checker': True,
+            'insertion_scan_limit': 20,
+            'use_global_best_insertion': True,
+            'consolidate_vehicles': True,
+        },
+        'fleet': {
+            'max_clients_per_vehicle': 3,
+            'waiting_time_factor': 0.5,
+            'validate_with_checker': True,
+            'insertion_scan_limit': 24,
+            'use_global_best_insertion': True,
+            'consolidate_vehicles': True,
+        },
+        'fleet_strong': {
+            'max_clients_per_vehicle': 3,
+            'waiting_time_factor': 0.5,
+            'validate_with_checker': True,
+            'insertion_scan_limit': 28,
+            'use_global_best_insertion': True,
+            'consolidate_vehicles': True,
+        },
+        'ultra_fleet': {
+            'max_clients_per_vehicle': 3,
+            'waiting_time_factor': 0.5,
+            'validate_with_checker': True,
+            'insertion_scan_limit': 32,
+            'use_global_best_insertion': True,
+            'consolidate_vehicles': True,
+            'target_vehicle_count': 20,
+        },
+    }
+
+    def __init__(self, instance, max_clients_per_vehicle: int | None = None, waiting_time_factor: float | None = None,
+                 validate_with_checker: bool | None = None, insertion_scan_limit: int | None = None,
+                 use_global_best_insertion: bool | None = None, consolidate_vehicles: bool | None = None,
+                 optimization_profile: str = 'ultra_fleet'):
 
         self.instance = instance
         self._ensure_instance_loaded()
-        self.max_clients_per_vehicle = max(1, int(max_clients_per_vehicle))
-        self.waiting_time_factor = max(0.0, float(waiting_time_factor))
-        self.validate_with_checker = bool(validate_with_checker)
-        self.insertion_scan_limit = max(2, int(insertion_scan_limit))
+        profile_key = str(optimization_profile or 'default').strip().lower()
+        if profile_key not in self.PROFILES:
+            profile_key = 'default'
+        profile = self.PROFILES[profile_key]
+
+        max_clients_value = profile['max_clients_per_vehicle'] if max_clients_per_vehicle is None else max_clients_per_vehicle
+        waiting_factor_value = profile['waiting_time_factor'] if waiting_time_factor is None else waiting_time_factor
+        validate_value = profile['validate_with_checker'] if validate_with_checker is None else validate_with_checker
+        insertion_scan_value = profile['insertion_scan_limit'] if insertion_scan_limit is None else insertion_scan_limit
+        global_best_value = profile['use_global_best_insertion'] if use_global_best_insertion is None else use_global_best_insertion
+        consolidate_value = profile['consolidate_vehicles'] if consolidate_vehicles is None else consolidate_vehicles
+        target_vehicle_count_value = profile.get('target_vehicle_count', None)
+
+        self.optimization_profile = profile_key
+        self.max_clients_per_vehicle = max(1, int(max_clients_value))
+        self.waiting_time_factor = max(0.0, float(waiting_factor_value))
+        self.validate_with_checker = bool(validate_value)
+        self.insertion_scan_limit = max(2, int(insertion_scan_value))
+        self.use_global_best_insertion = bool(global_best_value)
+        self.consolidate_vehicles = bool(consolidate_value)
+        self.target_vehicle_count = None if target_vehicle_count_value is None else max(1, int(target_vehicle_count_value))
         self.vehicles = []
         self.departure_times = []
 
@@ -242,17 +298,18 @@ class Optimisation:
             'evaluation': candidate_eval,
         }
 
-    def _best_insertion(self, base_route, request):
+    def _best_insertion(self, base_route, request, scan_limit=None):
         base_eval = self._simulate_route(base_route, enforce_time_constraints=True)
         if base_eval is None:
             return None
 
         best = self._best_append(base_route, request)
         route_len = len(base_route)
-        pickup_start = max(0, route_len - self.insertion_scan_limit)
+        active_scan_limit = self.insertion_scan_limit if scan_limit is None else max(2, int(scan_limit))
+        pickup_start = max(0, route_len - active_scan_limit)
 
         for pickup_pos in range(pickup_start, route_len + 1):
-            dropoff_end = min(route_len + 1, pickup_pos + self.insertion_scan_limit)
+            dropoff_end = min(route_len + 1, pickup_pos + active_scan_limit)
             for dropoff_pos in range(pickup_pos + 1, dropoff_end + 1):
                 candidate_route = list(base_route)
                 candidate_route.insert(pickup_pos, ('P', request['id']))
@@ -285,6 +342,353 @@ class Optimisation:
         self.vehicles = [vehicle['visits'] for vehicle in vehicles_data]
         self.departure_times = [vehicle['departure_times'] for vehicle in vehicles_data]
 
+    def _request_ids_from_route(self, route):
+        request_ids = [client_id for stop_type, client_id in route if stop_type == 'P']
+        request_ids.sort(key=lambda rid: (self._requests_by_id[rid]['request_time'], rid))
+        return request_ids
+
+    def _route_request_count(self, route):
+        return sum(1 for stop_type, _ in route if stop_type == 'P')
+
+    def _pick_best_fleet_candidate(self, candidates):
+        if not candidates:
+            return None
+
+        best_choice = None
+        for candidate in candidates:
+            if best_choice is None:
+                best_choice = candidate
+                continue
+
+            if self.optimization_profile == 'ultra_fleet':
+                if candidate['target_load'] > best_choice['target_load']:
+                    best_choice = candidate
+                    continue
+                if (candidate['target_load'] == best_choice['target_load'] and
+                        candidate['added_cost'] < best_choice['added_cost']):
+                    best_choice = candidate
+                    continue
+            elif candidate['added_cost'] < best_choice['added_cost']:
+                best_choice = candidate
+
+        return best_choice
+
+    def _solution_score(self, vehicles_data):
+        total_travel = sum(vehicle['total_travel_time'] for vehicle in vehicles_data)
+        return (len(vehicles_data), total_travel)
+
+    def _request_sequences(self):
+        base = list(self._requests)
+        if not base:
+            return [base]
+
+        chronological = list(base)
+        reverse_chronological = list(reversed(base))
+        long_trip_first = sorted(
+            base,
+            key=lambda req: (
+                -self._direct_travel_time(req),
+                req['request_time'],
+                req['id'],
+            ),
+        )
+        early_tight_first = sorted(
+            base,
+            key=lambda req: (
+                req['request_time'],
+                self._direct_travel_time(req),
+                req['id'],
+            ),
+        )
+
+        candidates = [chronological, reverse_chronological, long_trip_first, early_tight_first]
+
+        if len(base) > 160:
+            candidates = candidates[:3]
+
+        unique_sequences = []
+        seen = set()
+        for sequence in candidates:
+            key = tuple(req['id'] for req in sequence)
+            if key in seen:
+                continue
+            seen.add(key)
+            unique_sequences.append(sequence)
+
+        return unique_sequences
+
+    def _build_constructive_solution(self, request_sequence):
+        vehicles_data = []
+
+        for request in request_sequence:
+            candidate_choices = []
+
+            for v_idx, vehicle in enumerate(vehicles_data):
+                insertion = self._best_insertion(vehicle['route'], request)
+                if insertion is None:
+                    continue
+
+                if not self.use_global_best_insertion:
+                    candidate_choices = [{
+                        'vehicle_idx': v_idx,
+                        'added_cost': insertion['added_cost'],
+                        'target_load': self._route_request_count(vehicle['route']),
+                        'evaluation': insertion['evaluation'],
+                    }]
+                    break
+
+                candidate = {
+                    'vehicle_idx': v_idx,
+                    'added_cost': insertion['added_cost'],
+                    'target_load': self._route_request_count(vehicle['route']),
+                    'evaluation': insertion['evaluation'],
+                }
+                candidate_choices.append(candidate)
+
+            best_choice = self._pick_best_fleet_candidate(candidate_choices)
+
+            if best_choice is None and self.optimization_profile == 'ultra_fleet' and vehicles_data:
+                deep_candidates = []
+                for v_idx, vehicle in enumerate(vehicles_data):
+                    full_scan = max(2, len(vehicle['route']) + 2)
+                    insertion = self._best_insertion(vehicle['route'], request, scan_limit=full_scan)
+                    if insertion is None:
+                        continue
+                    deep_candidates.append({
+                        'vehicle_idx': v_idx,
+                        'added_cost': insertion['added_cost'],
+                        'target_load': self._route_request_count(vehicle['route']),
+                        'evaluation': insertion['evaluation'],
+                    })
+
+                best_choice = self._pick_best_fleet_candidate(deep_candidates)
+
+            if best_choice is None:
+                new_route = [('P', request['id']), ('D', request['id'])]
+                new_eval = self._simulate_route(new_route)
+
+                if new_eval is None:
+                    new_eval = self._simulate_route(new_route, enforce_time_constraints=False)
+
+                if new_eval is None:
+                    raise ValueError(f"No feasible route found for client {request['id']}")
+
+                vehicles_data.append(new_eval)
+                continue
+
+            v_idx = best_choice['vehicle_idx']
+            evaluation = best_choice['evaluation']
+            vehicles_data[v_idx] = {
+                'route': evaluation['route'],
+                'visits': evaluation['visits'],
+                'departure_times': evaluation['departure_times'],
+                'total_travel_time': evaluation['total_travel_time'],
+            }
+
+        return vehicles_data
+
+    def _iter_absorb_request_orders(self, request_ids):
+        chronological = list(request_ids)
+        reverse_chronological = list(reversed(chronological))
+        long_trips_first = sorted(
+            request_ids,
+            key=lambda rid: self._direct_travel_time(self._requests_by_id[rid]),
+            reverse=True,
+        )
+
+        seen = set()
+        for order in (chronological, reverse_chronological, long_trips_first):
+            key = tuple(order)
+            if key in seen:
+                continue
+            seen.add(key)
+            yield order
+
+        if self.optimization_profile == 'ultra_fleet' and len(request_ids) <= 3:
+            for order in itertools.permutations(request_ids):
+                key = tuple(order)
+                if key in seen:
+                    continue
+                seen.add(key)
+                yield list(order)
+
+    def _try_absorb_vehicle(self, vehicles_data, source_idx, aggressive=False):
+        source_route = vehicles_data[source_idx]['route']
+        source_requests = self._request_ids_from_route(source_route)
+        if not source_requests:
+            return None
+
+        scan_limits = [self.insertion_scan_limit]
+        if self.optimization_profile == 'ultra_fleet' and len(source_requests) <= 2:
+            scan_limits.append(self.insertion_scan_limit + 16)
+        if aggressive:
+            scan_limits.append(self.insertion_scan_limit + 24)
+            scan_limits.append(64)
+
+        normalized_scan_limits = []
+        seen_limits = set()
+        for limit in scan_limits:
+            limit = max(2, int(limit))
+            if limit in seen_limits:
+                continue
+            seen_limits.add(limit)
+            normalized_scan_limits.append(limit)
+        scan_limits = normalized_scan_limits
+
+        for request_order in self._iter_absorb_request_orders(source_requests):
+            for scan_limit in scan_limits:
+                test_vehicles = [
+                    {
+                        'route': list(vehicle['route']),
+                        'visits': list(vehicle['visits']),
+                        'departure_times': list(vehicle['departure_times']),
+                        'total_travel_time': float(vehicle['total_travel_time']),
+                    }
+                    for vehicle in vehicles_data
+                ]
+
+                merged = True
+                for request_id in request_order:
+                    request = self._requests_by_id[request_id]
+                    best_target = None
+
+                    for target_idx, target_vehicle in enumerate(test_vehicles):
+                        if target_idx == source_idx:
+                            continue
+
+                        insertion = self._best_insertion(target_vehicle['route'], request, scan_limit=scan_limit)
+                        if insertion is None:
+                            continue
+
+                        candidate_load = self._route_request_count(target_vehicle['route'])
+                        candidate = {
+                            'target_idx': target_idx,
+                            'added_cost': insertion['added_cost'],
+                            'target_load': candidate_load,
+                            'evaluation': insertion['evaluation'],
+                        }
+
+                        if best_target is None:
+                            best_target = candidate
+                            continue
+
+                        if self.optimization_profile == 'ultra_fleet':
+                            if candidate['target_load'] > best_target['target_load']:
+                                best_target = candidate
+                                continue
+                            if (candidate['target_load'] == best_target['target_load'] and
+                                    candidate['added_cost'] < best_target['added_cost']):
+                                best_target = candidate
+                                continue
+                        elif candidate['added_cost'] < best_target['added_cost']:
+                            best_target = candidate
+
+                    if best_target is None:
+                        merged = False
+                        break
+
+                    target_idx = best_target['target_idx']
+                    evaluation = best_target['evaluation']
+                    test_vehicles[target_idx] = {
+                        'route': evaluation['route'],
+                        'visits': evaluation['visits'],
+                        'departure_times': evaluation['departure_times'],
+                        'total_travel_time': evaluation['total_travel_time'],
+                    }
+
+                if merged:
+                    return [vehicle for idx, vehicle in enumerate(test_vehicles) if idx != source_idx]
+
+        return None
+
+    def _compact_to_target(self, vehicles_data):
+        if self.target_vehicle_count is None:
+            return vehicles_data
+
+        max_rounds = max(1, 2 * len(vehicles_data))
+        rounds = 0
+
+        while len(vehicles_data) > self.target_vehicle_count and rounds < max_rounds:
+            rounds += 1
+            source_order = sorted(
+                range(len(vehicles_data)),
+                key=lambda idx: (
+                    len(self._request_ids_from_route(vehicles_data[idx]['route'])),
+                    vehicles_data[idx]['total_travel_time'],
+                ),
+            )
+
+            merged_any = False
+            for source_idx in source_order:
+                merged = self._try_absorb_vehicle(vehicles_data, source_idx, aggressive=True)
+                if merged is None:
+                    continue
+                vehicles_data = merged
+                merged_any = True
+                break
+
+            if not merged_any:
+                break
+
+        return vehicles_data
+
+    def _consolidate_vehicles(self, vehicles_data):
+        improved = True
+        while improved and len(vehicles_data) > 1:
+            improved = False
+
+            source_order = sorted(
+                range(len(vehicles_data)),
+                key=lambda idx: (
+                    len(self._request_ids_from_route(vehicles_data[idx]['route'])),
+                    vehicles_data[idx]['total_travel_time'],
+                ),
+            )
+
+            if self.optimization_profile in ('fleet_strong', 'ultra_fleet'):
+                source_order = source_order + sorted(
+                    range(len(vehicles_data)),
+                    key=lambda idx: (
+                        -len(self._request_ids_from_route(vehicles_data[idx]['route'])),
+                        vehicles_data[idx]['total_travel_time'],
+                    ),
+                )
+
+            seen_sources = set()
+            dedup_source_order = []
+            for idx in source_order:
+                if idx in seen_sources:
+                    continue
+                seen_sources.add(idx)
+                dedup_source_order.append(idx)
+
+            for source_idx in dedup_source_order:
+                merged = self._try_absorb_vehicle(vehicles_data, source_idx)
+                if merged is not None:
+                    vehicles_data = merged
+                    improved = True
+                    break
+
+        if self.optimization_profile == 'ultra_fleet' and len(vehicles_data) > 1:
+            improved = True
+            while improved and len(vehicles_data) > 1:
+                improved = False
+                source_order = sorted(
+                    range(len(vehicles_data)),
+                    key=lambda idx: (
+                        -len(self._request_ids_from_route(vehicles_data[idx]['route'])),
+                        vehicles_data[idx]['total_travel_time'],
+                    ),
+                )
+                for source_idx in source_order:
+                    merged = self._try_absorb_vehicle(vehicles_data, source_idx)
+                    if merged is not None:
+                        vehicles_data = merged
+                        improved = True
+                        break
+
+        return vehicles_data
+
     def _validate_and_repair_with_checker(self):
         if not self.validate_with_checker or Checker is None:
             return
@@ -310,43 +714,21 @@ class Optimisation:
 
     def run(self):
         """
-        Simple FIFO algorithm: Process requests in chronological order.
-        For each request, try appending to existing vehicles in order.
-        If no vehicle accepts it, create a new vehicle.
+        Chronological insertion workflow:
+        - process requests by request time,
+        - try inserting each request into existing vehicles,
+        - if all insertions violate constraints, create a new vehicle.
         """
-        vehicles_data = []
+        if not self._requests:
+            self.vehicles = []
+            self.departure_times = []
+            return
 
-        for request in self._requests:
-            assigned = False
-
-            # Try inserting into each existing vehicle
-            for v_idx, vehicle in enumerate(vehicles_data):
-                insertion = self._best_insertion(vehicle['route'], request)
-                
-                if insertion is not None:
-                    # Insertion succeeded, update this vehicle
-                    vehicles_data[v_idx] = {
-                        'route': insertion['evaluation']['route'],
-                        'visits': insertion['evaluation']['visits'],
-                        'departure_times': insertion['evaluation']['departure_times'],
-                        'total_travel_time': insertion['evaluation']['total_travel_time'],
-                    }
-                    assigned = True
-                    break  # Move to next request
-
-            # If not assigned to any vehicle, create a new vehicle
-            if not assigned:
-                new_route = [('P', request['id']), ('D', request['id'])]
-                new_eval = self._simulate_route(new_route)
-                
-                # If single-client route is infeasible even without constraints, relax
-                if new_eval is None:
-                    new_eval = self._simulate_route(new_route, enforce_time_constraints=False)
-                
-                if new_eval is None:
-                    raise ValueError(f"No feasible route found for client {request['id']}")
-                
-                vehicles_data.append(new_eval)
+        vehicles_data = self._build_constructive_solution(self._requests)
+        if self.consolidate_vehicles:
+            vehicles_data = self._consolidate_vehicles(vehicles_data)
+        if self.optimization_profile == 'ultra_fleet':
+            vehicles_data = self._compact_to_target(vehicles_data)
 
         self.vehicles = [vehicle['visits'] for vehicle in vehicles_data]
         self.departure_times = [vehicle['departure_times'] for vehicle in vehicles_data]

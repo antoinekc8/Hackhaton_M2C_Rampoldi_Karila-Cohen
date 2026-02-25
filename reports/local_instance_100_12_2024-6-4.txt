@@ -1,6 +1,6 @@
 Total Vehicles in Solution: 37
 
->>> VEHICLE 1 ANALYSIS | Total Travel Time: 656.53 min
+>>> VEHICLE 1 ANALYSIS | Total Travel Time: 621.00 min
 ------------------------------------------------------------
 Full Route Timeline:
   Step 00: Depot    | Zone: 0    | Departure: 27.00
@@ -10,51 +10,123 @@ Full Route Timeline:
   Step 04: C1D      | Zone: 3    | Departure: 99.19
   Step 05: C32P     | Zone: 3    | Departure: 111.00
   Step 06: C32D     | Zone: 6    | Departure: 121.58
-  Step 07: C57P     | Zone: 4    | Departure: 151.00
-  Step 08: C57D     | Zone: 3    | Departure: 161.59
-  Step 09: C28P     | Zone: 4    | Departure: 176.00
-  Step 10: C28D     | Zone: 1    | Departure: 185.79
-  Step 11: C34P     | Zone: 4    | Departure: 199.00
-  Step 12: C34D     | Zone: 5    | Departure: 216.83
-  Step 13: C80P     | Zone: 1    | Departure: 232.22
-  Step 14: C80D     | Zone: 4    | Departure: 242.74
-  Step 15: C14P     | Zone: 6    | Departure: 257.00
-  Step 16: C14D     | Zone: 4    | Departure: 268.42
-  Step 17: C6P      | Zone: 6    | Departure: 299.00
-  Step 18: C6D      | Zone: 1    | Departure: 314.81
-  Step 19: C38P     | Zone: 1    | Departure: 322.00
-  Step 20: C38D     | Zone: 4    | Departure: 332.52
-  Step 21: C24P     | Zone: 1    | Departure: 379.00
-  Step 22: C24D     | Zone: 3    | Departure: 394.91
-  Step 23: C85P     | Zone: 3    | Departure: 398.00
-  Step 24: C85D     | Zone: 6    | Departure: 408.58
-  Step 25: C39P     | Zone: 4    | Departure: 431.00
-  Step 26: C39D     | Zone: 1    | Departure: 440.79
-  Step 27: C64P     | Zone: 2    | Departure: 448.67
-  Step 28: C64D     | Zone: 3    | Departure: 463.12
-  Step 29: C71P     | Zone: 3    | Departure: 464.00
-  Step 30: C71D     | Zone: 4    | Departure: 476.35
-  Step 31: C67P     | Zone: 4    | Departure: 480.00
-  Step 32: C67D     | Zone: 2    | Departure: 487.79
-  Step 33: C69P     | Zone: 2    | Departure: 487.79
-  Step 34: C69D     | Zone: 3    | Departure: 502.24
-  Step 35: C70P     | Zone: 6    | Departure: 517.00
-  Step 36: C74P     | Zone: 6    | Departure: 517.00
-  Step 37: C70D     | Zone: 2    | Departure: 528.83
-  Step 38: C74D     | Zone: 2    | Departure: 528.83
-  Step 39: C75P     | Zone: 4    | Departure: 546.00
-  Step 40: C75D     | Zone: 2    | Departure: 553.79
-  Step 41: C23P     | Zone: 4    | Departure: 565.01
-  Step 42: C23D     | Zone: 5    | Departure: 582.84
-  Step 43: C19P     | Zone: 1    | Departure: 600.00
-  Step 44: C19D     | Zone: 3    | Departure: 615.91
-  Step 45: Depot    | Zone: 0    | Departure: 683.53
+  Step 07: C87P     | Zone: 6    | Departure: 161.00
+  Step 08: C87D     | Zone: 2    | Departure: 172.83
+  Step 09: C21P     | Zone: 3    | Departure: 190.00
+  Step 10: C84P     | Zone: 4    | Departure: 202.35
+  Step 11: C84D     | Zone: 1    | Departure: 212.14
+  Step 12: C21D     | Zone: 1    | Departure: 212.14
+  Step 13: C52P     | Zone: 2    | Departure: 220.02
+  Step 14: C52D     | Zone: 6    | Departure: 232.06
+  Step 15: C61P     | Zone: 0    | Departure: 307.00
+  Step 16: C98P     | Zone: 0    | Departure: 307.00
+  Step 17: C61D     | Zone: 6    | Departure: 380.56
+  Step 18: C98D     | Zone: 5    | Departure: 394.70
+  Step 19: C42P     | Zone: 6    | Departure: 494.00
+  Step 20: C42D     | Zone: 1    | Departure: 509.81
+  Step 21: C47P     | Zone: 4    | Departure: 533.00
+  Step 22: C47D     | Zone: 5    | Departure: 550.83
+  Step 23: C43P     | Zone: 4    | Departure: 567.00
+  Step 24: C43D     | Zone: 1    | Departure: 576.79
+  Step 25: Depot    | Zone: 0    | Departure: 648.00
 
   Client  | ReqTime | ActDep  | ActDrop | RideTT | Status
   --------------------------------------------------------------------------------
   C77     | 27.0    | 27.0    | 70.5    | 43.52  | PASS
   C1      | 6.0     | 27.0    | 99.2    | 72.19  | PASS
   C32     | 111.0   | 111.0   | 119.2   | 8.20   | PASS
+  C87     | 161.0   | 161.0   | 169.4   | 8.37   | PASS
+  C21     | 190.0   | 190.0   | 212.1   | 22.14  | PASS
+  C84     | 202.0   | 202.3   | 211.2   | 8.89   | PASS
+  C52     | 217.0   | 220.0   | 228.9   | 8.86   | PASS
+  C61     | 307.0   | 307.0   | 372.8   | 65.81  | PASS
+  C98     | 301.0   | 307.0   | 393.9   | 86.92  | PASS
+  C42     | 494.0   | 494.0   | 504.3   | 10.26  | PASS
+  C47     | 533.0   | 533.0   | 544.7   | 11.68  | PASS
+  C43     | 567.0   | 567.0   | 576.8   | 9.79   | PASS
+
+>>> VEHICLE 2 ANALYSIS | Total Travel Time: 662.55 min
+------------------------------------------------------------
+Full Route Timeline:
+  Step 00: Depot    | Zone: 0    | Departure: 48.00
+  Step 01: C4P      | Zone: 0    | Departure: 48.00
+  Step 02: C4D      | Zone: 2    | Departure: 121.09
+  Step 03: C73P     | Zone: 3    | Departure: 200.00
+  Step 04: C73D     | Zone: 2    | Departure: 214.09
+  Step 05: C49P     | Zone: 0    | Departure: 281.79
+  Step 06: C49D     | Zone: 6    | Departure: 355.35
+  Step 07: C10P     | Zone: 0    | Departure: 422.39
+  Step 08: C10D     | Zone: 4    | Departure: 498.39
+  Step 09: C79P     | Zone: 0    | Departure: 569.76
+  Step 10: C79D     | Zone: 2    | Departure: 642.85
+  Step 11: Depot    | Zone: 0    | Departure: 710.55
+
+  Client  | ReqTime | ActDep  | ActDrop | RideTT | Status
+  --------------------------------------------------------------------------------
+  C4      | 48.0    | 48.0    | 95.3    | 47.27  | PASS
+  C73     | 200.0   | 200.0   | 211.5   | 11.48  | PASS
+  C49     | 264.0   | 281.8   | 344.7   | 62.88  | PASS
+  C10     | 415.0   | 422.4   | 497.4   | 75.01  | PASS
+  C79     | 562.0   | 569.8   | 634.5   | 64.78  | PASS
+
+>>> VEHICLE 3 ANALYSIS | Total Travel Time: 705.62 min
+------------------------------------------------------------
+Full Route Timeline:
+  Step 00: Depot    | Zone: 0    | Departure: -22.09
+  Step 01: C76P     | Zone: 1    | Departure: 57.00
+  Step 02: C76D     | Zone: 4    | Departure: 67.52
+  Step 03: C18P     | Zone: 3    | Departure: 79.00
+  Step 04: C18D     | Zone: 2    | Departure: 93.09
+  Step 05: C50P     | Zone: 1    | Departure: 99.69
+  Step 06: C50D     | Zone: 3    | Departure: 115.60
+  Step 07: C72P     | Zone: 3    | Departure: 122.00
+  Step 08: C72D     | Zone: 2    | Departure: 136.09
+  Step 09: C57P     | Zone: 4    | Departure: 151.00
+  Step 10: C57D     | Zone: 3    | Departure: 161.59
+  Step 11: C28P     | Zone: 4    | Departure: 176.00
+  Step 12: C28D     | Zone: 1    | Departure: 185.79
+  Step 13: C34P     | Zone: 4    | Departure: 199.00
+  Step 14: C34D     | Zone: 5    | Departure: 216.83
+  Step 15: C80P     | Zone: 1    | Departure: 232.22
+  Step 16: C80D     | Zone: 4    | Departure: 242.74
+  Step 17: C14P     | Zone: 6    | Departure: 257.00
+  Step 18: C14D     | Zone: 4    | Departure: 268.42
+  Step 19: C6P      | Zone: 6    | Departure: 299.00
+  Step 20: C6D      | Zone: 1    | Departure: 314.81
+  Step 21: C38P     | Zone: 1    | Departure: 322.00
+  Step 22: C38D     | Zone: 4    | Departure: 332.52
+  Step 23: C24P     | Zone: 1    | Departure: 379.00
+  Step 24: C24D     | Zone: 3    | Departure: 394.91
+  Step 25: C85P     | Zone: 3    | Departure: 398.00
+  Step 26: C85D     | Zone: 6    | Departure: 408.58
+  Step 27: C39P     | Zone: 4    | Departure: 431.00
+  Step 28: C39D     | Zone: 1    | Departure: 440.79
+  Step 29: C64P     | Zone: 2    | Departure: 448.67
+  Step 30: C64D     | Zone: 3    | Departure: 463.12
+  Step 31: C71P     | Zone: 3    | Departure: 464.00
+  Step 32: C71D     | Zone: 4    | Departure: 476.35
+  Step 33: C67P     | Zone: 4    | Departure: 480.00
+  Step 34: C67D     | Zone: 2    | Departure: 487.79
+  Step 35: C69P     | Zone: 2    | Departure: 487.79
+  Step 36: C69D     | Zone: 3    | Departure: 502.24
+  Step 37: C70P     | Zone: 6    | Departure: 517.00
+  Step 38: C74P     | Zone: 6    | Departure: 517.00
+  Step 39: C70D     | Zone: 2    | Departure: 528.83
+  Step 40: C74D     | Zone: 2    | Departure: 528.83
+  Step 41: C75P     | Zone: 4    | Departure: 546.00
+  Step 42: C75D     | Zone: 2    | Departure: 553.79
+  Step 43: C23P     | Zone: 4    | Departure: 565.01
+  Step 44: C23D     | Zone: 5    | Departure: 582.84
+  Step 45: C19P     | Zone: 1    | Departure: 600.00
+  Step 46: C19D     | Zone: 3    | Departure: 615.91
+  Step 47: Depot    | Zone: 0    | Departure: 683.53
+
+  Client  | ReqTime | ActDep  | ActDrop | RideTT | Status
+  --------------------------------------------------------------------------------
+  C76     | 57.0    | 57.0    | 63.2    | 6.22   | PASS
+  C18     | 79.0    | 79.0    | 89.1    | 10.13  | PASS
+  C50     | 98.0    | 99.7    | 109.0   | 9.28   | PASS
+  C72     | 122.0   | 122.0   | 133.6   | 11.59  | PASS
   C57     | 151.0   | 151.0   | 159.8   | 8.81   | PASS
   C28     | 176.0   | 176.0   | 183.8   | 7.79   | PASS
   C34     | 199.0   | 199.0   | 210.3   | 11.26  | PASS
@@ -75,100 +147,7 @@ Full Route Timeline:
   C23     | 561.0   | 565.0   | 579.4   | 14.41  | PASS
   C19     | 600.0   | 600.0   | 612.6   | 12.62  | PASS
 
->>> VEHICLE 2 ANALYSIS | Total Travel Time: 584.25 min
-------------------------------------------------------------
-Full Route Timeline:
-  Step 00: Depot    | Zone: 0    | Departure: 48.00
-  Step 01: C4P      | Zone: 0    | Departure: 48.00
-  Step 02: C4D      | Zone: 2    | Departure: 121.09
-  Step 03: C92P     | Zone: 4    | Departure: 160.00
-  Step 04: C92D     | Zone: 3    | Departure: 170.59
-  Step 05: C35P     | Zone: 4    | Departure: 187.00
-  Step 06: C35D     | Zone: 5    | Departure: 204.83
-  Step 07: C7P      | Zone: 5    | Departure: 240.00
-  Step 08: C7D      | Zone: 3    | Departure: 255.63
-  Step 09: C61P     | Zone: 0    | Departure: 323.25
-  Step 10: C98P     | Zone: 0    | Departure: 323.25
-  Step 11: C26P     | Zone: 6    | Departure: 397.00
-  Step 12: C61D     | Zone: 6    | Departure: 397.00
-  Step 13: C26D     | Zone: 5    | Departure: 411.14
-  Step 14: C98D     | Zone: 5    | Departure: 411.14
-  Step 15: C11P     | Zone: 6    | Departure: 489.00
-  Step 16: C11D     | Zone: 4    | Departure: 500.42
-  Step 17: C27P     | Zone: 4    | Departure: 523.00
-  Step 18: C27D     | Zone: 6    | Departure: 532.71
-  Step 19: C94P     | Zone: 5    | Departure: 549.00
-  Step 20: C94D     | Zone: 3    | Departure: 564.63
-  Step 21: Depot    | Zone: 0    | Departure: 632.25
-
-  Client  | ReqTime | ActDep  | ActDrop | RideTT | Status
-  --------------------------------------------------------------------------------
-  C4      | 48.0    | 48.0    | 95.3    | 47.27  | PASS
-  C92     | 160.0   | 160.0   | 168.8   | 8.81   | PASS
-  C35     | 187.0   | 187.0   | 198.3   | 11.26  | PASS
-  C7      | 240.0   | 240.0   | 255.2   | 15.15  | PASS
-  C61     | 307.0   | 323.2   | 397.0   | 73.75  | PASS
-  C98     | 301.0   | 323.2   | 411.1   | 87.89  | PASS
-  C26     | 397.0   | 397.0   | 410.4   | 13.36  | PASS
-  C11     | 489.0   | 489.0   | 500.4   | 11.42  | PASS
-  C27     | 523.0   | 523.0   | 531.6   | 8.60   | PASS
-  C94     | 549.0   | 549.0   | 560.0   | 10.98  | PASS
-
->>> VEHICLE 3 ANALYSIS | Total Travel Time: 670.09 min
-------------------------------------------------------------
-Full Route Timeline:
-  Step 00: Depot    | Zone: 0    | Departure: -22.09
-  Step 01: C76P     | Zone: 1    | Departure: 57.00
-  Step 02: C76D     | Zone: 4    | Departure: 67.52
-  Step 03: C18P     | Zone: 3    | Departure: 79.00
-  Step 04: C18D     | Zone: 2    | Departure: 93.09
-  Step 05: C50P     | Zone: 1    | Departure: 99.69
-  Step 06: C50D     | Zone: 3    | Departure: 115.60
-  Step 07: C72P     | Zone: 3    | Departure: 122.00
-  Step 08: C72D     | Zone: 2    | Departure: 136.09
-  Step 09: C87P     | Zone: 6    | Departure: 161.00
-  Step 10: C87D     | Zone: 2    | Departure: 172.83
-  Step 11: C21P     | Zone: 3    | Departure: 190.00
-  Step 12: C84P     | Zone: 4    | Departure: 202.35
-  Step 13: C84D     | Zone: 1    | Departure: 212.14
-  Step 14: C21D     | Zone: 1    | Departure: 212.14
-  Step 15: C52P     | Zone: 2    | Departure: 220.02
-  Step 16: C52D     | Zone: 6    | Departure: 232.06
-  Step 17: C81P     | Zone: 2    | Departure: 302.00
-  Step 18: C81D     | Zone: 6    | Departure: 314.04
-  Step 19: C66P     | Zone: 3    | Departure: 332.89
-  Step 20: C66D     | Zone: 6    | Departure: 343.47
-  Step 21: C44P     | Zone: 4    | Departure: 382.00
-  Step 22: C44D     | Zone: 3    | Departure: 392.59
-  Step 23: C13P     | Zone: 3    | Departure: 408.00
-  Step 24: C13D     | Zone: 2    | Departure: 422.09
-  Step 25: C42P     | Zone: 6    | Departure: 494.00
-  Step 26: C42D     | Zone: 1    | Departure: 509.81
-  Step 27: C47P     | Zone: 4    | Departure: 533.00
-  Step 28: C47D     | Zone: 5    | Departure: 550.83
-  Step 29: C43P     | Zone: 4    | Departure: 567.00
-  Step 30: C43D     | Zone: 1    | Departure: 576.79
-  Step 31: Depot    | Zone: 0    | Departure: 648.00
-
-  Client  | ReqTime | ActDep  | ActDrop | RideTT | Status
-  --------------------------------------------------------------------------------
-  C76     | 57.0    | 57.0    | 63.2    | 6.22   | PASS
-  C18     | 79.0    | 79.0    | 89.1    | 10.13  | PASS
-  C50     | 98.0    | 99.7    | 109.0   | 9.28   | PASS
-  C72     | 122.0   | 122.0   | 133.6   | 11.59  | PASS
-  C87     | 161.0   | 161.0   | 169.4   | 8.37   | PASS
-  C21     | 190.0   | 190.0   | 212.1   | 22.14  | PASS
-  C84     | 202.0   | 202.3   | 211.2   | 8.89   | PASS
-  C52     | 217.0   | 220.0   | 228.9   | 8.86   | PASS
-  C81     | 302.0   | 302.0   | 312.0   | 9.97   | PASS
-  C66     | 332.0   | 332.9   | 343.5   | 10.58  | PASS
-  C44     | 382.0   | 382.0   | 392.6   | 10.59  | PASS
-  C13     | 408.0   | 408.0   | 422.1   | 14.09  | PASS
-  C42     | 494.0   | 494.0   | 504.3   | 10.26  | PASS
-  C47     | 533.0   | 533.0   | 544.7   | 11.68  | PASS
-  C43     | 567.0   | 567.0   | 576.8   | 9.79   | PASS
-
->>> VEHICLE 4 ANALYSIS | Total Travel Time: 645.62 min
+>>> VEHICLE 4 ANALYSIS | Total Travel Time: 646.44 min
 ------------------------------------------------------------
 Full Route Timeline:
   Step 00: Depot    | Zone: 0    | Departure: -14.19
@@ -180,17 +159,27 @@ Full Route Timeline:
   Step 06: C29D     | Zone: 6    | Departure: 102.17
   Step 07: C78P     | Zone: 4    | Departure: 123.00
   Step 08: C78D     | Zone: 6    | Departure: 132.71
-  Step 09: C73P     | Zone: 3    | Departure: 200.00
-  Step 10: C73D     | Zone: 2    | Departure: 214.09
-  Step 11: C49P     | Zone: 0    | Departure: 281.79
-  Step 12: C49D     | Zone: 6    | Departure: 355.35
-  Step 13: C10P     | Zone: 0    | Departure: 422.39
-  Step 14: C10D     | Zone: 4    | Departure: 498.39
-  Step 15: C68P     | Zone: 4    | Departure: 533.00
-  Step 16: C68D     | Zone: 3    | Departure: 543.59
-  Step 17: C91P     | Zone: 4    | Departure: 555.94
-  Step 18: C91D     | Zone: 2    | Departure: 563.73
-  Step 19: Depot    | Zone: 0    | Departure: 631.43
+  Step 09: C92P     | Zone: 4    | Departure: 160.00
+  Step 10: C92D     | Zone: 3    | Departure: 170.59
+  Step 11: C35P     | Zone: 4    | Departure: 187.00
+  Step 12: C35D     | Zone: 5    | Departure: 204.83
+  Step 13: C7P      | Zone: 5    | Departure: 240.00
+  Step 14: C7D      | Zone: 3    | Departure: 255.63
+  Step 15: C81P     | Zone: 2    | Departure: 302.00
+  Step 16: C81D     | Zone: 6    | Departure: 314.04
+  Step 17: C66P     | Zone: 3    | Departure: 332.89
+  Step 18: C66D     | Zone: 6    | Departure: 343.47
+  Step 19: C44P     | Zone: 4    | Departure: 382.00
+  Step 20: C44D     | Zone: 3    | Departure: 392.59
+  Step 21: C13P     | Zone: 3    | Departure: 408.00
+  Step 22: C13D     | Zone: 2    | Departure: 422.09
+  Step 23: C11P     | Zone: 6    | Departure: 489.00
+  Step 24: C11D     | Zone: 4    | Departure: 500.42
+  Step 25: C27P     | Zone: 4    | Departure: 523.00
+  Step 26: C27D     | Zone: 6    | Departure: 532.71
+  Step 27: C94P     | Zone: 5    | Departure: 549.00
+  Step 28: C94D     | Zone: 3    | Departure: 564.63
+  Step 29: Depot    | Zone: 0    | Departure: 632.25
 
   Client  | ReqTime | ActDep  | ActDrop | RideTT | Status
   --------------------------------------------------------------------------------
@@ -198,13 +187,18 @@ Full Route Timeline:
   C31     | 81.0    | 81.0    | 90.4    | 9.43   | PASS
   C29     | 90.0    | 91.6    | 99.8    | 8.20   | PASS
   C78     | 123.0   | 123.0   | 130.3   | 7.31   | PASS
-  C73     | 200.0   | 200.0   | 211.5   | 11.48  | PASS
-  C49     | 264.0   | 281.8   | 344.7   | 62.88  | PASS
-  C10     | 415.0   | 422.4   | 497.4   | 75.01  | PASS
-  C68     | 533.0   | 533.0   | 542.4   | 9.40   | PASS
-  C91     | 554.0   | 555.9   | 563.5   | 7.53   | PASS
+  C92     | 160.0   | 160.0   | 168.8   | 8.81   | PASS
+  C35     | 187.0   | 187.0   | 198.3   | 11.26  | PASS
+  C7      | 240.0   | 240.0   | 255.2   | 15.15  | PASS
+  C81     | 302.0   | 302.0   | 312.0   | 9.97   | PASS
+  C66     | 332.0   | 332.9   | 343.5   | 10.58  | PASS
+  C44     | 382.0   | 382.0   | 392.6   | 10.59  | PASS
+  C13     | 408.0   | 408.0   | 422.1   | 14.09  | PASS
+  C11     | 489.0   | 489.0   | 500.4   | 11.42  | PASS
+  C27     | 523.0   | 523.0   | 531.6   | 8.60   | PASS
+  C94     | 549.0   | 549.0   | 560.0   | 10.98  | PASS
 
->>> VEHICLE 5 ANALYSIS | Total Travel Time: 717.79 min
+>>> VEHICLE 5 ANALYSIS | Total Travel Time: 664.53 min
 ------------------------------------------------------------
 Full Route Timeline:
   Step 00: Depot    | Zone: 0    | Departure: -15.00
@@ -212,30 +206,6 @@ Full Route Timeline:
   Step 02: C25D     | Zone: 6    | Departure: 70.71
   Step 03: C89P     | Zone: 0    | Departure: 144.00
   Step 04: C89D     | Zone: 2    | Departure: 217.09
-  Step 05: C93P     | Zone: 4    | Departure: 305.00
-  Step 06: C93D     | Zone: 2    | Departure: 312.79
-  Step 07: C60P     | Zone: 1    | Departure: 334.00
-  Step 08: C60D     | Zone: 5    | Departure: 356.76
-  Step 09: C79P     | Zone: 0    | Departure: 562.00
-  Step 10: C79D     | Zone: 2    | Departure: 635.09
-  Step 11: Depot    | Zone: 0    | Departure: 702.79
-
-  Client  | ReqTime | ActDep  | ActDrop | RideTT | Status
-  --------------------------------------------------------------------------------
-  C25     | 61.0    | 61.0    | 68.1    | 7.13   | PASS
-  C89     | 144.0   | 144.0   | 197.1   | 53.07  | PASS
-  C93     | 305.0   | 305.0   | 312.3   | 7.31   | PASS
-  C60     | 334.0   | 334.0   | 349.5   | 15.51  | PASS
-  C79     | 562.0   | 562.0   | 626.8   | 64.78  | PASS
-
->>> VEHICLE 6 ANALYSIS | Total Travel Time: 639.72 min
-------------------------------------------------------------
-Full Route Timeline:
-  Step 00: Depot    | Zone: 0    | Departure: 9.81
-  Step 01: C41P     | Zone: 3    | Departure: 82.00
-  Step 02: C41D     | Zone: 6    | Departure: 92.58
-  Step 03: C30P     | Zone: 0    | Departure: 167.00
-  Step 04: C30D     | Zone: 1    | Departure: 246.09
   Step 05: C3P      | Zone: 0    | Departure: 319.00
   Step 06: C3D      | Zone: 2    | Departure: 392.09
   Step 07: C65P     | Zone: 6    | Departure: 570.00
@@ -244,17 +214,17 @@ Full Route Timeline:
 
   Client  | ReqTime | ActDep  | ActDrop | RideTT | Status
   --------------------------------------------------------------------------------
-  C41     | 82.0    | 82.0    | 90.2    | 8.20   | PASS
-  C30     | 167.0   | 167.0   | 220.5   | 53.54  | PASS
+  C25     | 61.0    | 61.0    | 68.1    | 7.13   | PASS
+  C89     | 144.0   | 144.0   | 197.1   | 53.07  | PASS
   C3      | 319.0   | 319.0   | 385.0   | 66.02  | PASS
   C65     | 570.0   | 570.0   | 579.9   | 9.85   | PASS
 
->>> VEHICLE 7 ANALYSIS | Total Travel Time: 725.56 min
+>>> VEHICLE 6 ANALYSIS | Total Travel Time: 727.56 min
 ------------------------------------------------------------
 Full Route Timeline:
-  Step 00: Depot    | Zone: 0    | Departure: 11.81
-  Step 01: C59P     | Zone: 3    | Departure: 84.00
-  Step 02: C59D     | Zone: 4    | Departure: 96.35
+  Step 00: Depot    | Zone: 0    | Departure: 9.81
+  Step 01: C41P     | Zone: 3    | Departure: 82.00
+  Step 02: C41D     | Zone: 6    | Departure: 92.58
   Step 03: C99P     | Zone: 3    | Departure: 207.00
   Step 04: C99D     | Zone: 5    | Departure: 226.80
   Step 05: C90P     | Zone: 0    | Departure: 333.00
@@ -265,10 +235,40 @@ Full Route Timeline:
 
   Client  | ReqTime | ActDep  | ActDrop | RideTT | Status
   --------------------------------------------------------------------------------
-  C59     | 84.0    | 84.0    | 92.1    | 8.12   | PASS
+  C41     | 82.0    | 82.0    | 90.2    | 8.20   | PASS
   C99     | 207.0   | 207.0   | 219.9   | 12.91  | PASS
   C90     | 333.0   | 333.0   | 401.6   | 68.60  | PASS
   C36     | 590.0   | 590.0   | 656.9   | 66.92  | PASS
+
+>>> VEHICLE 7 ANALYSIS | Total Travel Time: 619.62 min
+------------------------------------------------------------
+Full Route Timeline:
+  Step 00: Depot    | Zone: 0    | Departure: 11.81
+  Step 01: C59P     | Zone: 3    | Departure: 84.00
+  Step 02: C59D     | Zone: 4    | Departure: 96.35
+  Step 03: C30P     | Zone: 0    | Departure: 167.72
+  Step 04: C30D     | Zone: 1    | Departure: 246.81
+  Step 05: C93P     | Zone: 4    | Departure: 305.00
+  Step 06: C93D     | Zone: 2    | Departure: 312.79
+  Step 07: C60P     | Zone: 1    | Departure: 334.00
+  Step 08: C60D     | Zone: 5    | Departure: 356.76
+  Step 09: C26P     | Zone: 6    | Departure: 397.00
+  Step 10: C26D     | Zone: 5    | Departure: 411.14
+  Step 11: C68P     | Zone: 4    | Departure: 533.00
+  Step 12: C68D     | Zone: 3    | Departure: 543.59
+  Step 13: C91P     | Zone: 4    | Departure: 555.94
+  Step 14: C91D     | Zone: 2    | Departure: 563.73
+  Step 15: Depot    | Zone: 0    | Departure: 631.43
+
+  Client  | ReqTime | ActDep  | ActDrop | RideTT | Status
+  --------------------------------------------------------------------------------
+  C59     | 84.0    | 84.0    | 92.1    | 8.12   | PASS
+  C30     | 167.0   | 167.7   | 221.3   | 53.54  | PASS
+  C93     | 305.0   | 305.0   | 312.3   | 7.31   | PASS
+  C60     | 334.0   | 334.0   | 349.5   | 15.51  | PASS
+  C26     | 397.0   | 397.0   | 410.4   | 13.36  | PASS
+  C68     | 533.0   | 533.0   | 542.4   | 9.40   | PASS
+  C91     | 554.0   | 555.9   | 563.5   | 7.53   | PASS
 
 >>> VEHICLE 8 ANALYSIS | Total Travel Time: 172.52 min
 ------------------------------------------------------------
@@ -638,5 +638,5 @@ SUMMARY STATISTICS
 ------------------------------------------------------------
 ALL SERVED: YES
 VERDICT:    FEASIBLE
-TOTAL TIME: 9443.74 min
+TOTAL TIME: 9451.50 min
 ============================================================

@@ -1,0 +1,2 @@
+scan_16 feasible=30/30 vehicles=998 time=240133.71
+scan_24 feasible=30/30 vehicles=998 time=240133.71

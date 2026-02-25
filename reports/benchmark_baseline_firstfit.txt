@@ -1,0 +1,4 @@
+Total instances: 30
+Feasible instances: 30
+Total vehicles: 1011
+Total travel time: 240253.95 min
